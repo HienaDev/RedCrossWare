@@ -28,7 +28,7 @@ public class MouseInteraction : MonoBehaviour
         {
             // Try to get an IInteractable component from the hit object
             IInteractable interactable = hit.collider.GetComponent<IInteractable>();
-
+            Debug.Log(interactable);
             if (interactable != null)
             {
                 // If the object has the interface, call its Interact method
