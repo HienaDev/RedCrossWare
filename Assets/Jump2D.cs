@@ -27,6 +27,9 @@ public class Jump2D : MonoBehaviour
 
     public bool canJump = false;
 
+    [SerializeField] private AudioClip gong;
+    [SerializeField] private AudioClip catMeow;
+    [SerializeField] private AudioClip jump;
     void Start()
     {
         // Get the Rigidbody2D component attached to this GameObject
@@ -43,12 +46,13 @@ public class Jump2D : MonoBehaviour
             return;
         
         // Check if the object is grounded and the player presses the jump button (spacebar)
-        if (IsGrounded())
+        if (IsGrounded() && !isJumping)
         {
             HopAnimation.StartHopping();
             ToggleAnimator(true);
             if (Input.GetKeyDown(KeyCode.Space))
             {
+                AudioManager.Instance.PlaySound(jump);
                 HopAnimation.StopHopping();
                 ToggleAnimator(false);
                 isJumping = true;
@@ -109,6 +113,7 @@ public class Jump2D : MonoBehaviour
         // Check if the object belongs to the specified layer
         if (((1 << other.gameObject.layer) & deathLayer) != 0)
         {
+            AudioManager.Instance.PlaySound(gong);
             Debug.Log("Death with: " + other.gameObject.name);
             chaseDogGame.LoseGame();
         }
@@ -116,6 +121,7 @@ public class Jump2D : MonoBehaviour
         // Check if the object belongs to the specified layer
         if (((1 << other.gameObject.layer) & dogLayer) != 0)
         {
+            AudioManager.Instance.PlaySound(catMeow);
             Debug.Log("Cat with: " + other.gameObject.name);
             chaseDogGame.WinGame();
         }

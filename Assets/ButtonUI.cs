@@ -1,5 +1,6 @@
 using UnityEngine;
 using DG.Tweening;
+using UnityEngine.SceneManagement;
 
 public class ButtonUI : MonoBehaviour
 {
@@ -15,6 +16,8 @@ public class ButtonUI : MonoBehaviour
 
     private bool exiting = false;
 
+    [SerializeField] private AudioClip woosh;
+    [SerializeField] private AudioClip pop;
     void Start()
     {
         originalPosition = transform.position; // Save initial position
@@ -24,12 +27,22 @@ public class ButtonUI : MonoBehaviour
     // Scale up (hover effect)
     public void ScaleUp()
     {
+        if (exiting) return;
+        if (pop != null)
+        {
+            AudioManager.Instance.PlaySound(pop, pitch: Random.Range(0.9f, 1.1f));
+        }
         transform.DOScale(originalScale * scaleUpSize, animationTime).SetEase(Ease.OutQuad);
     }
 
     // Scale down (return to normal size)
     public void ScaleDown()
     {
+        if (exiting) return;
+        if (pop != null)
+        {
+            AudioManager.Instance.PlaySound(pop, pitch:Random.Range(0.9f, 1.1f));
+        }
         transform.DOScale(originalScale * scaleDownSize, animationTime).SetEase(Ease.InQuad);
     }
 
@@ -58,10 +71,21 @@ public class ButtonUI : MonoBehaviour
     // **Exit animation (moves far left)**
     public void ExitLeft()
     {
+        if (woosh != null)
+        {
+            AudioManager.Instance.PlaySound(woosh, pitch: Random.Range(0.9f, 1.1f));
+        }
         exiting = true;
         transform.DOMoveX(originalPosition.x - exitDistance, 0.5f)
             .SetEase(Ease.InBack)
             .OnComplete(() => exiting = false); // Deactivate after animation
+    }
+
+    public void RestartGame()
+    {
+        AudioManager.Instance.StopAllLoopingSounds();
+        AudioManager.Instance.StopAllOneShots();
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     // **Exit the game (works in both Editor and Build)**

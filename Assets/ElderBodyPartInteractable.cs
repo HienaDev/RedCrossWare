@@ -1,4 +1,3 @@
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class ElderBodyPartInteractable : MonoBehaviour, IInteractable
@@ -12,6 +11,9 @@ public class ElderBodyPartInteractable : MonoBehaviour, IInteractable
 
     [SerializeField] private SpriteRenderer bodyAnswerSprite;
 
+    [SerializeField] private AudioClip pop;
+
+    private bool canInteract = false;
 
     public void Initialize(ElderYogaGame game)
     {
@@ -24,7 +26,10 @@ public class ElderBodyPartInteractable : MonoBehaviour, IInteractable
     }
     public void Interact()
     {
+        //if (!canInteract)
+        //    return;
         currentAnswer++;
+        AudioManager.Instance.PlaySound(pop, pitch:Random.Range(0.85f, 1.15f));
         if(currentAnswer >= bodyPartSprites.Length)
         {
             currentAnswer = 0;
@@ -38,7 +43,7 @@ public class ElderBodyPartInteractable : MonoBehaviour, IInteractable
     public void StartGameElder()
     {
         bodyAnswerSprite.sprite = bodyPartSprites[elderController.correctAnswer[index]];
-
+        canInteract = true;
     }
 
     public void ResetInteractable()

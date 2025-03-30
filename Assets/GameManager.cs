@@ -2,6 +2,7 @@ using DG.Tweening;
 using System;
 using System.Collections;
 using TMPro;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -43,6 +44,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private PopOutAndSlideDown countdownTimer;
     private TextMeshProUGUI countdownTimerText;
 
+    [SerializeField] private GameObject fuse;
+    [ SerializeField] private GameObject bomb;
 
     private int miniGamesCleared = 0;
 
@@ -51,11 +54,25 @@ public class GameManager : MonoBehaviour
     private bool gameOver = false;
 
     [SerializeField] private GameObject[] livesImages;
+
+    [SerializeField] private AudioClip fuseSound;
+    [SerializeField] private AudioClip yay;
+    [SerializeField] private GameObject confeti;   
+    [SerializeField] private AudioClip sad;
+    [SerializeField] private AudioClip countdown;
+    [SerializeField] private AudioClip explosion;
+    [SerializeField] private AudioClip whistle;
+
+    [SerializeField] private GameObject menu;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        menu.SetActive(true);
+
         countdownTimerText = countdownTimer.GetComponent<TextMeshProUGUI>();
         gameOverScreenText = gameOverScreen.GetComponent<TextMeshProUGUI>();
+        gameOverScreen.SetActive(false);
+        gameOverScreenText.text = "";
         //StartGame();
     }
 
@@ -87,7 +104,8 @@ public class GameManager : MonoBehaviour
 
     public void GameLost()
     {
-        StopCoroutine(currentGameCoroutine);
+        AudioManager.Instance.PlaySound(sad);
+        //StopCoroutine(currentGameCoroutine);
         currentGameWon = false;
         currentGameComplete = true;
         currentLives--;
@@ -130,14 +148,16 @@ public class GameManager : MonoBehaviour
 
     private void GameOver()
     {
-
+        confeti.SetActive(true);
         gameOverScreen.SetActive(true);
         gameOverScreenText.text = $"You've cleared {miniGamesCleared} minigames!\nThank you for your help!";
     }
 
     public void GameWon()
     {
-        StopCoroutine(currentGameCoroutine);
+        AudioManager.Instance.PlaySound(yay);
+        confeti.SetActive(true);
+        //StopCoroutine(currentGameCoroutine);
         currentGameWon = true;
         currentGameComplete = true;
         miniGamesCleared++;
@@ -148,6 +168,7 @@ public class GameManager : MonoBehaviour
     public IEnumerator NextGameCR()
     {
         yield return new WaitForSeconds(gameCelebrationTime);
+        confeti.SetActive(false);
         Transition();
     }
 
@@ -198,7 +219,7 @@ public class GameManager : MonoBehaviour
         courtainMaterial.SetTexture("_Texture", texture[UnityEngine.Random.Range(0, texture.Length)]);
 
 
-
+        bomb.SetActive(false);
         imageTimer.enabled = false;
         doorPivot.rotation = UnityEngine.Random.rotation;
         doorPivot.eulerAngles = new Vector3(0, 0, doorPivot.eulerAngles.z); // Lock the rotation to Z-axis only
@@ -280,7 +301,11 @@ public class GameManager : MonoBehaviour
         float timer = 0;
         float countdownNumber = 0;
         countdownTimerText.gameObject.SetActive(true);
+        float thisPitch = UnityEngine.Random.Range(0.8f, 0.9f);
+        AudioManager.Instance.PlaySound(countdown, pitch: thisPitch);
         countdownTimer.AnimatePopAndSlide(Mathf.FloorToInt(timerBeforeGameStarts - timer + 1).ToString());
+
+        
 
         while (timer < timerBeforeGameStarts)
         {
@@ -290,6 +315,8 @@ public class GameManager : MonoBehaviour
 
             if (countdownNumber > 1)
             {
+                thisPitch += 0.15f;
+                AudioManager.Instance.PlaySound(countdown, pitch: thisPitch);
                 countdownNumber = 0;
                 countdownTimer.AnimatePopAndSlide(Mathf.FloorToInt(timerBeforeGameStarts - timer + 1).ToString());
             }
@@ -298,6 +325,7 @@ public class GameManager : MonoBehaviour
             yield return null;
         }
 
+        AudioManager.Instance.PlaySound(whistle, pitch: UnityEngine.Random.Range(0.9f, 1.1f));
         countdownTimerText.gameObject.SetActive(true);
 
         imageTimer.enabled = true;
@@ -305,28 +333,43 @@ public class GameManager : MonoBehaviour
         currentGame.StartGame();
 
         timer = 0;
+        bomb.SetActive(true);
+        fuse.SetActive(true);
+        AudioManager.Instance.PlayLoopingSound(fuseSound, volume: 0.3f);
 
+        float timeLimit = currentGame.TimeLimit;
 
-        while (timer < currentGame.TimeLimit && !currentGameComplete)
+        while (timer < timeLimit && !currentGameComplete)
         {
+            fuse.transform.position = new Vector3(Map01ToRange(1 - (timer / timeLimit)), fuse.transform.position.y, fuse.transform.position.z);
             timer += Time.deltaTime;
-            imageTimer.fillAmount = 1 - (timer / currentGame.TimeLimit);
+            imageTimer.fillAmount = 1 - (timer / timeLimit);
             yield return null;
         }
-
-
+        
+        fuse.SetActive(false);
+        AudioManager.Instance.StopLoopingSound(fuseSound);
         Debug.Log("Time's up!");
         if (!currentGameComplete)
         {
             if (currentGame.TimeOverWin)
                 currentGame.WinGame();
             else
+            {
                 currentGame.LoseGame();
+                AudioManager.Instance.PlaySound(explosion);
+            }
+                
         }
 
         //imageTimer.enabled = false;
         currentGameComplete = false;
 
+    }
+
+    float Map01ToRange(float value01)
+    {
+        return (value01 * 10.8f) - 5.4f;
     }
 
     void Shuffle<T>(T[] array)

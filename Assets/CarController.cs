@@ -13,6 +13,7 @@ public class CarController : MonoBehaviour
 
     [SerializeField] private CarGame carGame;
 
+    [SerializeField] private AudioClip carCrash;
     public bool canMove = true;
 
     void Start()
@@ -55,6 +56,7 @@ public class CarController : MonoBehaviour
         // Check if the object belongs to the specified layer
         if (((1 << collision.gameObject.layer) & deathLayer) != 0 && carGame.gameStarted)
         {
+            AudioManager.Instance.PlaySound(carCrash);
             Debug.Log("Death with: " + collision.gameObject.name);
             carGame.LoseGame();
             canMove = false;

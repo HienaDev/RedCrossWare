@@ -20,6 +20,8 @@ public class PhoneInteractable : MonoBehaviour, IInteractable
 
     public Collider2D colliderInteract;
 
+    [SerializeField] private AudioClip ringAudioClip;
+    [SerializeField] private AudioClip talkingAudio;
     private void Awake()
     {
         colliderInteract = GetComponent<Collider2D>();
@@ -41,6 +43,7 @@ public class PhoneInteractable : MonoBehaviour, IInteractable
         colliderInteract.enabled = true;
         ringSequence = DOTween.Sequence();
 
+        ringSequence.AppendCallback(PlayRingSound);
         // Calculate number of shakes needed to fit the ring duration
         int numShakes = Mathf.FloorToInt(ringDuration / (shakeSpeed * 2));
 
@@ -52,7 +55,7 @@ public class PhoneInteractable : MonoBehaviour, IInteractable
 
         // Ensure it resets back to neutral position before pausing
         ringSequence.Append(transform.DORotate(Vector3.zero, shakeSpeed).SetEase(Ease.OutSine));
-
+        ringSequence.AppendCallback(StopRingSound);
         // Pause before the next ring cycle
         ringSequence.AppendInterval(ringPause);
 
@@ -60,9 +63,21 @@ public class PhoneInteractable : MonoBehaviour, IInteractable
         ringSequence.SetLoops(-1, LoopType.Restart);
     }
 
+    private void PlayRingSound()
+    {
+        AudioManager.Instance.PlaySound(ringAudioClip);
+    }
+
+    private void StopRingSound()
+    {
+        AudioManager.Instance.StopOneShot(ringAudioClip);
+    }
+
     public void Interact()
     {
+        AudioManager.Instance.PlayLoopingSound(talkingAudio, volume:0.5f);
         ringSequence.Kill();
+        StopRingSound();
         phoneSpriteRenderer.sprite = phoneDown;
         phoneAnswer.sprite = callCenterGame.GetAnswerSprite();
         phoneAnswer.enabled = true;
@@ -72,6 +87,9 @@ public class PhoneInteractable : MonoBehaviour, IInteractable
 
     public void ResetInteractable()
     {
+        AudioManager.Instance.StopLoopingSound(talkingAudio);
+        ringSequence.Kill();
+        StopRingSound();
         phoneSpriteRenderer.sprite = phoneUp;
         phoneAnswer.enabled = false;
         colliderInteract.enabled = false;

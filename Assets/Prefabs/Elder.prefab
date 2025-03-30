@@ -911,6 +911,7 @@ MonoBehaviour:
   elderController: {fileID: 8046862162843773502}
   index: 1
   bodyAnswerSprite: {fileID: 7418534724245115422}
+  pop: {fileID: 8300000, guid: c115806044066fd4eaf8b57ebca1fef6, type: 3}
 --- !u!1 &6867873266988316769
 GameObject:
   m_ObjectHideFlags: 0
@@ -1065,6 +1066,7 @@ MonoBehaviour:
   elderController: {fileID: 8046862162843773502}
   index: 2
   bodyAnswerSprite: {fileID: 8761956840715521598}
+  pop: {fileID: 8300000, guid: c115806044066fd4eaf8b57ebca1fef6, type: 3}
 --- !u!1 &7413230968946139016
 GameObject:
   m_ObjectHideFlags: 0
@@ -1219,6 +1221,7 @@ MonoBehaviour:
   elderController: {fileID: 8046862162843773502}
   index: 3
   bodyAnswerSprite: {fileID: 1443586407627639979}
+  pop: {fileID: 8300000, guid: c115806044066fd4eaf8b57ebca1fef6, type: 3}
 --- !u!1 &7570279465028983645
 GameObject:
   m_ObjectHideFlags: 0
@@ -1461,6 +1464,7 @@ MonoBehaviour:
   elderController: {fileID: 8046862162843773502}
   index: 0
   bodyAnswerSprite: {fileID: 2396873880027965726}
+  pop: {fileID: 8300000, guid: c115806044066fd4eaf8b57ebca1fef6, type: 3}
 --- !u!61 &5067938098297902009
 BoxCollider2D:
   m_ObjectHideFlags: 0

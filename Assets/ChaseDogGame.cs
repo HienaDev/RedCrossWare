@@ -30,6 +30,8 @@ public class ChaseDogGame : MonoBehaviour, IMicroGame
     [SerializeField] private HopAnimation hopAnimation;
     [SerializeField] private Jump2D playerController;
 
+    [SerializeField] private GameObject cloudPrefab;
+
     public GameObject[] Controls => controls;
     [SerializeField] private GameObject[] controls;
     public void StartGame()
@@ -55,8 +57,14 @@ public class ChaseDogGame : MonoBehaviour, IMicroGame
             building.transform.localScale = new Vector3(building.transform.localScale.x * Random.Range(1f, 2f),
                                                         building.transform.localScale.y * 1, 
                                                         building.transform.localScale.z * 1);
-
             buildings.Add(building);
+
+            GameObject cloud = Instantiate(cloudPrefab, buildingParent.transform);
+            cloud.transform.position = new Vector3(i * 10 - (15f) - Random.Range(-2f, 2f), 0 + Random.Range(-3f, 3f) + 2f, 0);
+            cloud.transform.localScale *= Random.Range(0.8f, 1.2f);
+
+
+            buildings.Add(cloud);
 
             if (i == buildingNumber - 1)
             {
