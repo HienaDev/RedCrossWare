@@ -15,7 +15,7 @@ public class PhoneInteractable : MonoBehaviour, IInteractable
     [SerializeField] private Sprite phoneUp;
     [SerializeField] private Sprite phoneDown;
     [SerializeField] private SpriteRenderer phoneAnswer;
-
+    [SerializeField] private GameObject phoneBubble;
     private Sequence ringSequence;
 
     public Collider2D colliderInteract;
@@ -67,6 +67,7 @@ public class PhoneInteractable : MonoBehaviour, IInteractable
         phoneAnswer.sprite = callCenterGame.GetAnswerSprite();
         phoneAnswer.enabled = true;
         colliderInteract.enabled = false;
+        phoneBubble.SetActive(true);
     }
 
     public void ResetInteractable()
@@ -74,5 +75,6 @@ public class PhoneInteractable : MonoBehaviour, IInteractable
         phoneSpriteRenderer.sprite = phoneUp;
         phoneAnswer.enabled = false;
         colliderInteract.enabled = false;
+        phoneBubble.SetActive(false);
     }
 }
