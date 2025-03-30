@@ -1,10 +1,19 @@
 fileFormatVersion: 2
-guid: ea1235fed2bca0b4cb5d4b277f6cc3d6
+guid: 77aff36370955e343a6669059ef7a811
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -347627570514976070
-    second: firetruck_0
+      213: 6782813536761691038
+    second: controls_0
+  - first:
+      213: 3303988218376537383
+    second: controls_1
+  - first:
+      213: 225358914316224342
+    second: controls_2
+  - first:
+      213: -7687483754779569326
+    second: controls_3
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -46,12 +55,12 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 400
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -139,13 +148,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: firetruck_0
+      name: controls_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 2048
-        height: 1712
+        x: 199
+        y: 335
+        width: 110
+        height: 133
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -154,8 +163,74 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: ab2a251019afc2bf0800000000000000
-      internalID: -347627570514976070
+      spriteID: e9b346c89f4612e50800000000000000
+      internalID: 6782813536761691038
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: controls_1
+      rect:
+        serializedVersion: 2
+        x: 87
+        y: 204
+        width: 381
+        height: 110
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 725c86287cf1add20800000000000000
+      internalID: 3303988218376537383
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: controls_2
+      rect:
+        serializedVersion: 2
+        x: 78
+        y: 28
+        width: 137
+        height: 117
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 65749c21db2a02300800000000000000
+      internalID: 225358914316224342
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: controls_3
+      rect:
+        serializedVersion: 2
+        x: 241
+        y: 25
+        width: 143
+        height: 115
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 25317cb4142905590800000000000000
+      internalID: -7687483754779569326
       vertices: []
       indices: 
       edges: []
@@ -164,7 +239,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -174,7 +249,10 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      firetruck_0: -347627570514976070
+      controls_0: 6782813536761691038
+      controls_1: 3303988218376537383
+      controls_2: 225358914316224342
+      controls_3: -7687483754779569326
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

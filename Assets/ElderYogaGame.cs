@@ -20,12 +20,17 @@ public class ElderYogaGame : MonoBehaviour, IMicroGame
 
     [SerializeField] private GameManager gameManager;
 
+    public string CatchPhrase => catchPhrase;
+    [SerializeField] private string catchPhrase;
 
     private bool gameOver = false;
 
     public bool gameStarted = false;
 
     [SerializeField] private Transform[] spawnPositions;
+
+    public GameObject[] Controls => controls;
+    [SerializeField] private GameObject[] controls;
 
     private void Awake()
     {
@@ -76,7 +81,7 @@ public class ElderYogaGame : MonoBehaviour, IMicroGame
 
             for (int j = 0; j < 4; j++)
             {
-                correctAnswer[i * 4 + j] = Random.Range(0, 4);
+                correctAnswer[i * 4 + j] = Random.Range(0, 3);
             }
 
             elder.Initialize(correctAnswer[0 + i * 4],

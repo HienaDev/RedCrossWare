@@ -12,6 +12,8 @@ public interface IMicroGame
         public string answer;
     }
 
+    GameObject[] Controls { get; }
+    string CatchPhrase { get; }
     bool TimeOverWin { get; }
     float TimeLimit { get; }
     void CheckGame(string answer);

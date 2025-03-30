@@ -20,6 +20,13 @@ public class CarGame : MonoBehaviour, IMicroGame
 
     public bool gameStarted = false;
 
+    public string CatchPhrase => catchPhrase;
+
+    public GameObject[] Controls => controls;
+    [SerializeField] private GameObject[] controls;
+
+    [SerializeField] private string catchPhrase;
+
     public void CheckGame(string answer)
     {
         throw new System.NotImplementedException();
@@ -29,6 +36,7 @@ public class CarGame : MonoBehaviour, IMicroGame
     {
         if (gameOver)
             return;
+        
         gameStarted = false;
         gameOver = true;
         carSpawner.ToggleSpawning(false);
@@ -49,7 +57,7 @@ public class CarGame : MonoBehaviour, IMicroGame
             return;
         gameStarted = false;
         gameOver = true;
-
+        
         carSpawner.ToggleSpawning(false);
         gameManager.GameLost();
     }
@@ -76,6 +84,7 @@ public class CarGame : MonoBehaviour, IMicroGame
         gameStarted = false;
         gameOver = true;
         carSpawner.ToggleSpawning(false);
+
         gameManager.GameWon();
     }
 

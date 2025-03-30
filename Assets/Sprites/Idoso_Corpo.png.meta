@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: ea1235fed2bca0b4cb5d4b277f6cc3d6
+guid: a12ff36e458d28c4c9b0ff0b3f2ae546
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -347627570514976070
-    second: firetruck_0
+      213: 115013541934097343
+    second: Idoso_Corpo_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -51,7 +51,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 400
+  spritePixelsToUnits: 300
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -139,13 +139,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: firetruck_0
+      name: Idoso_Corpo_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 2048
-        height: 1712
+        x: 41
+        y: 34
+        width: 376
+        height: 573
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -154,8 +154,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: ab2a251019afc2bf0800000000000000
-      internalID: -347627570514976070
+      spriteID: fb3675ff43c989100800000000000000
+      internalID: 115013541934097343
       vertices: []
       indices: 
       edges: []
@@ -174,7 +174,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      firetruck_0: -347627570514976070
+      Idoso_Corpo_0: 115013541934097343
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

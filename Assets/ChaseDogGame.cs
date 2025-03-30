@@ -21,11 +21,17 @@ public class ChaseDogGame : MonoBehaviour, IMicroGame
 
     private bool gameOver = false;
 
+    public string CatchPhrase => catchPhrase;
+    [SerializeField] private string catchPhrase;
+
     public bool TimeOverWin => gameWinsOnGameOver;
     [SerializeField] private bool gameWinsOnGameOver = false;
 
     [SerializeField] private HopAnimation hopAnimation;
     [SerializeField] private Jump2D playerController;
+
+    public GameObject[] Controls => controls;
+    [SerializeField] private GameObject[] controls;
     public void StartGame()
     {
         buildingParent.GetComponent<MovingBuildings>().enabled = true;

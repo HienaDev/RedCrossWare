@@ -72,6 +72,8 @@ public class CarSpawner : MonoBehaviour
         // Spawn the car
         GameObject newCar = Instantiate(carPrefab, spawnPos, Quaternion.identity);
 
+        cars.Add(newCar);
+
         // Add downward movement to the car
         Rigidbody2D rb = newCar.GetComponent<Rigidbody2D>();
         if (rb != null)

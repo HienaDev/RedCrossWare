@@ -19,12 +19,17 @@ public class PopOutAndSlideDown : MonoBehaviour
 
     [SerializeField] private string prompt = "Banana";
 
-    void Start()
+    void Awake()
     {
         originalPosition = transform.position;
         originalScale = transform.localScale;
         textMeshPro = GetComponent<TextMeshProUGUI>();
-        AnimatePopAndSlide(prompt);
+        
+    }
+
+    private void Start()
+    {
+        gameObject.SetActive(false);
     }
 
     public void AnimatePopAndSlide(string text)

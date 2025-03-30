@@ -26,7 +26,14 @@ public class CallCenterGame : MonoBehaviour, IMicroGame
     private bool gameOver = false;
 
     public bool TimeOverWin => gameWinsOnGameOver;
+
+    public string CatchPhrase => catchPhrase;
+    [SerializeField] private string catchPhrase;
+
     [SerializeField] private bool gameWinsOnGameOver = false;
+
+    public GameObject[] Controls => controls;
+    [SerializeField] private GameObject[] controls;
 
     private void Awake()
     {

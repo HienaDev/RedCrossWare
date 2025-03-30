@@ -1,6 +1,7 @@
 using DG.Tweening;
 using System;
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -37,9 +38,24 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Color[] colors;
     [SerializeField] private Texture[] texture;
 
+    [SerializeField] private PopOutAndSlideDown PopOutAndSlideDown;
+
+    [SerializeField] private PopOutAndSlideDown countdownTimer;
+    private TextMeshProUGUI countdownTimerText;
+
+
+    private int miniGamesCleared = 0;
+
+    [SerializeField] private GameObject gameOverScreen;
+    private TextMeshProUGUI gameOverScreenText;
+    private bool gameOver = false;
+
+    [SerializeField] private GameObject[] livesImages;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        countdownTimerText = countdownTimer.GetComponent<TextMeshProUGUI>();
+        gameOverScreenText = gameOverScreen.GetComponent<TextMeshProUGUI>();
         //StartGame();
     }
 
@@ -75,10 +91,36 @@ public class GameManager : MonoBehaviour
         currentGameWon = false;
         currentGameComplete = true;
         currentLives--;
+
+        for (int i = 0; i < lives; i++)
+        {
+            livesImages[i].gameObject.SetActive(false);
+        }
+        for (int i = 0; i < currentLives; i++)
+        {
+            livesImages[i].gameObject.SetActive(true);
+        }
+
         if (currentLives <= 0)
         {
             Debug.Log("Game Over");
-            NextGame();
+            gameOver = true;
+
+            if (currentGame != null)
+            {
+                currentGame.EndGame();
+                currentGame.ResetGame();
+
+                foreach (GameObject control in currentGame.Controls)
+                {
+                    control.SetActive(false);
+                }
+                microGames[currentGameIndex].gameObject.SetActive(false);
+
+
+            }
+
+            Transition();
         }
         else
         {
@@ -86,11 +128,19 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void GameOver()
+    {
+
+        gameOverScreen.SetActive(true);
+        gameOverScreenText.text = $"You've cleared {miniGamesCleared} minigames!\nThank you for your help!";
+    }
+
     public void GameWon()
     {
         StopCoroutine(currentGameCoroutine);
         currentGameWon = true;
         currentGameComplete = true;
+        miniGamesCleared++;
         NextGame();
     }
 
@@ -110,7 +160,14 @@ public class GameManager : MonoBehaviour
         {
             currentGame.EndGame();
             currentGame.ResetGame();
+
+            foreach (GameObject control in currentGame.Controls)
+            {
+                control.SetActive(false);
+            }
             microGames[currentGameIndex].gameObject.SetActive(false);
+
+
         }
 
         currentGameIndex++;
@@ -141,6 +198,7 @@ public class GameManager : MonoBehaviour
         courtainMaterial.SetTexture("_Texture", texture[UnityEngine.Random.Range(0, texture.Length)]);
 
 
+
         imageTimer.enabled = false;
         doorPivot.rotation = UnityEngine.Random.rotation;
         doorPivot.eulerAngles = new Vector3(0, 0, doorPivot.eulerAngles.z); // Lock the rotation to Z-axis only
@@ -156,17 +214,32 @@ public class GameManager : MonoBehaviour
         // Move doors to the center (closing)
         transitionSequence.Append(leftDoor.DOMove(centerPosition, transitionTime).SetEase(Ease.InOutQuad));
         transitionSequence.Join(rightDoor.DOMove(centerPosition, transitionTime).SetEase(Ease.InOutQuad));
-        transitionSequence.AppendCallback(SelectNewGame);
+
+        if(!gameOver)
+            transitionSequence.AppendCallback(SelectNewGame);
+
+        transitionSequence.AppendCallback(ShowCatchPhrase);
 
         // Optional: Hold the doors closed for effect
         transitionSequence.AppendInterval(holdTime);
 
         // Move doors back to their original world positions (opening)
         transitionSequence.Append(leftDoor.DOMove(leftStartPos, transitionTime).SetEase(Ease.InOutQuad));
-        transitionSequence.Join(rightDoor.DOMove(rightStartPos, transitionTime).SetEase(Ease.InOutQuad)).onComplete += () => StartTimer();
+        transitionSequence.Join(rightDoor.DOMove(rightStartPos, transitionTime).SetEase(Ease.InOutQuad)).onComplete += () => {
+            if (!gameOver) StartTimer();
+        };
 
         transitionSequence.onComplete += () =>
         {
+            for (int i = 0; i < currentLives; i++)
+            {
+                livesImages[i].gameObject.SetActive(true);
+            }
+
+            if(gameOver)
+            {
+                GameOver();
+            }
             //Transition();
             //// Deactivate all microgames
             //foreach (var game in microGames)
@@ -179,6 +252,23 @@ public class GameManager : MonoBehaviour
         };
     }
 
+    private void ShowCatchPhrase()
+    {
+        PopOutAndSlideDown.gameObject.SetActive(true);
+        Debug.Log(currentGame.CatchPhrase);
+        if(!gameOver)
+        {
+            PopOutAndSlideDown.AnimatePopAndSlide(currentGame.CatchPhrase);
+            foreach (GameObject control in currentGame.Controls)
+            {
+                control.SetActive(true);
+            }
+        }
+
+        else
+            PopOutAndSlideDown.AnimatePopAndSlide("Game Over!");
+    }
+
     private void StartTimer()
     {
         currentGameCoroutine = StartCoroutine(StartTimerCR());
@@ -188,12 +278,27 @@ public class GameManager : MonoBehaviour
     {
 
         float timer = 0;
+        float countdownNumber = 0;
+        countdownTimerText.gameObject.SetActive(true);
+        countdownTimer.AnimatePopAndSlide(Mathf.FloorToInt(timerBeforeGameStarts - timer + 1).ToString());
 
         while (timer < timerBeforeGameStarts)
         {
+            countdownNumber += Time.deltaTime;
+
+            countdownTimerText.text = Mathf.FloorToInt(timerBeforeGameStarts - timer + 1).ToString();
+
+            if (countdownNumber > 1)
+            {
+                countdownNumber = 0;
+                countdownTimer.AnimatePopAndSlide(Mathf.FloorToInt(timerBeforeGameStarts - timer + 1).ToString());
+            }
+
             timer += Time.deltaTime;
             yield return null;
         }
+
+        countdownTimerText.gameObject.SetActive(true);
 
         imageTimer.enabled = true;
 

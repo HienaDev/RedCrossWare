@@ -52,9 +52,9 @@ Material:
     m_Floats:
     - _CircleSize: 0.2
     - _ColorIntensity: 0.5
-    - _Gradient1: 1
+    - _Gradient1: 0
     - _Gradient2: 0
-    - _Gradient3: 0
+    - _Gradient3: 1
     - _Gradient4: 0
     - _Gradient5: 0
     - _GradientSpeed: 0.3
@@ -63,7 +63,7 @@ Material:
     - _Speed: 2
     m_Colors:
     - _BackgroundColor: {r: 0, g: 0, b: 0, a: 0}
-    - _BallColor: {r: 0.12903225, g: 1, b: 0, a: 1}
+    - _BallColor: {r: 0.96129036, g: 1, b: 0, a: 1}
     - _Offset: {r: 1, g: 1, b: 0, a: 0}
     - _Tiling: {r: 20, g: 20, b: 0, a: 0}
   m_BuildTextureStacks: []

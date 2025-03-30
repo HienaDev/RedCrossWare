@@ -19,7 +19,7 @@ public class ElderBodyPartInteractable : MonoBehaviour, IInteractable
         // Set the sprite to a random body part
         currentAnswer = part;
         elderYogaGame = game;
-        GetComponent<SpriteRenderer>().sprite = bodyPartSprites[Random.Range(0, bodyPartSprites.Length)];
+        GetComponent<SpriteRenderer>().sprite = bodyPartSprites[currentAnswer];
         elderYogaGame.SendAnswer(index, currentAnswer);
     }
     public void Interact()
@@ -29,7 +29,7 @@ public class ElderBodyPartInteractable : MonoBehaviour, IInteractable
         {
             currentAnswer = 0;
         }
-        GetComponent<SpriteRenderer>().sprite = bodyPartSprites[Random.Range(0, bodyPartSprites.Length)];
+        GetComponent<SpriteRenderer>().sprite = bodyPartSprites[currentAnswer];
         elderYogaGame.SendAnswer(index, currentAnswer);
 
         elderYogaGame.CheckGame("test");
